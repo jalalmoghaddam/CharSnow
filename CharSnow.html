@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Char snow</title>
+
+    <style>
+        /* set color */
+        :root{
+            --lightGreen : #62C60D;
+            --darkGreen : #282C34;       
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            background-color: var(--darkGreen);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #container{
+            max-width: 300px;
+            height: 400px;           
+            margin: auto ;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #line{
+            max-width: 300px;
+            height: 2px;
+            margin: 200px auto 0;
+            background-color: var(--lightGreen);            
+            box-shadow: 0 0 8px 1px var(--lightGreen);
+            position: relative;
+        }
+
+        #line::before{
+            width: 300px;
+            content: "Jalal Moghaddam";
+            color: var(--lightGreen);
+            text-shadow: 0 0 5px var(--lightGreen);
+            position: absolute;            
+            bottom: 10px;
+            right: 50%;
+            translate: 50% ;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .char{
+            color: var(--lightGreen);
+            text-shadow: 0 0 5px var(--lightGreen);
+            font-weight: boldR;         
+            position: absolute;
+            /* hide characters behind the container */
+            top: -20px;
+            /* time should be the same with eliminate time */
+            animation: grow 1000ms linear;
+            user-select: none;
+        }
+
+        @keyframes grow {
+            70%{
+                top: 100px;
+                opacity: 1;
+                transform: rotateX(0deg);
+            }         
+            100%{
+                top: 100px;
+                opacity: 0;
+                transform: rotateX(90deg);
+            }   
+        }
+    </style>
+</head>
+
+<body>
+    <div id="line"></div>
+    <div id="container">
+        <p class="char"></p>
+    </div>    
+</body>
+
+<script>
+    const container = document.getElementById("container");
+
+    //create character Continuously
+    setInterval(function(createChar){
+        var newChar = document.createElement('p');
+        container.appendChild(newChar);
+        newChar.classList.add('char');
+        newChar.style.fontSize = getRand(18,26)+"px";        
+        //random character based on ascii code
+        newChar.innerHTML = "&#" + getRand(33,126);
+        var randomPos = getRand(20,260) + "px";
+        newChar.style.right = randomPos;                
+        //eliminate characters after a while
+        setTimeout(() => {
+            newChar.parentNode.removeChild(newChar);
+        }, 1000);
+    },200)
+
+    //create a random integer between min & max
+    function getRand(min,max){
+        return Math.floor(Math.random() 
+            * (max - min + 1) ) + min ;
+    }    
+</script>
+</html>
